@@ -58,7 +58,10 @@ class AddUserScreenController extends GetxController {
 
   clearControllers() {
     state.gameValue.value = 'Select';
-    state.semesterController.clear();
+    state.deptValue.value = 'Select';
+    state.semValue.value = 'Select';
+
+    state.rollNoController.clear();
     state.nameController.clear();
     state.phoneController.clear();
 

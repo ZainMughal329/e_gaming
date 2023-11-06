@@ -29,6 +29,14 @@ class AddUserScreen extends GetView<AddUserScreenController> {
             readOnly: false,
           ),
           AddUserInputTextField(
+            contr: controller.state.nameController,
+            descrip: 'Name',
+            obsecure: false,
+            icon: Icons.drive_file_rename_outline,
+            labelText: 'Name',
+            readOnly: false,
+          ),
+          AddUserInputTextField(
             contr: controller.state.phoneController,
             descrip: 'PhoneNo',
             obsecure: false,
@@ -37,14 +45,16 @@ class AddUserScreen extends GetView<AddUserScreenController> {
             readOnly: false,
           ),
           AddUserInputTextField(
-            contr: controller.state.semesterController,
-            descrip: 'Semester',
+            contr: controller.state.rollNoController,
+            descrip: 'RollNo',
             obsecure: false,
             icon: Icons.class_outlined,
-            labelText: 'Semester',
+            labelText: 'RollNo',
             readOnly: false,
           ),
           _buildSelectGame(),
+          _buildSelectSemester(),
+          _buildSelectDepartment(),
           SizedBox(
             height: 30,
           ),
@@ -56,7 +66,10 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                       onPress: () {
                         if (controller.state.nameController.text.isEmpty &&
                             controller.state.gameValue.value == 'Select' &&
-                            controller.state.semesterController.text.isEmpty) {
+                            controller.state.semValue.value == 'Select' &&
+                            controller.state.deptValue.value == 'Select' &&
+
+                            controller.state.rollNoController.text.isEmpty) {
                           CustomSnackBar.showSnackBar(
                               'Error', 'Fill all fields', Icons.info_outline);
                         } else {
@@ -67,10 +80,10 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                             phone: controller.state.phoneController.text
                                 .trim()
                                 .toString(),
-                            semester: controller.state.semesterController.text
+                            rollNo: controller.state.rollNoController.text
                                 .trim()
                                 .toString(),
-                            game: controller.state.gameValue.value.toString(),
+                            game: controller.state.gameValue.value.toString(), department: '', semester: '',
                           );
                           controller.addUserDataToFirebase(user);
                         }
@@ -157,6 +170,165 @@ class AddUserScreen extends GetView<AddUserScreenController> {
       ),
     );
   }
+  Widget _buildSelectSemester() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextWidget(
+            title: 'Select Semester',
+            textColor: AppColors.iconColor,
+          ),
+          Obx(
+                () => DropdownButton(
+              hint: TextWidget(
+                title: controller.state.semValue.value.toString(),
+                textColor: Colors.black,
+              ),
+              items: [
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '1st',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '1st',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '2nd',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '2nd',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '3rd',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '3rd',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '4th',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '4th',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '5th',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '5th',
+                ),
+
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '6th',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '6th',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '7th',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '7th',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: '8th',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: '8th',
+                ),
+
+              ],
+              onChanged: (value) {
+                controller.state.semValue.value = value!;
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildSelectDepartment() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextWidget(
+            title: 'Select Department',
+            textColor: AppColors.iconColor,
+          ),
+          Obx(
+                () => DropdownButton(
+              hint: TextWidget(
+                title: controller.state.deptValue.value.toString(),
+                textColor: Colors.black,
+              ),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'IT',
+                      child: TextWidget( title: 'IT'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'English',
+                      child: TextWidget( title: 'English'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Math',
+                      child: TextWidget( title: 'Math'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Physics',
+                      child: TextWidget( title: 'Physics'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Economics',
+                      child: TextWidget( title: 'Economics'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Biology',
+                      child: TextWidget( title: 'Biology'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Urdu',
+                      child: TextWidget( title: 'Urdu'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Chemistry',
+                      child: TextWidget( title: 'Chemistry'),
+                    ),
+
+                    DropdownMenuItem(
+                      value: 'Pak Studies',
+                      child: TextWidget( title: 'Pak Studies'),
+                    ),
+                  ],
+
+                  onChanged: (value) {
+                controller.state.deptValue.value = value!;
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
