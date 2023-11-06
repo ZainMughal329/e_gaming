@@ -29,27 +29,21 @@ class AddUserScreen extends GetView<AddUserScreenController> {
             readOnly: false,
           ),
           AddUserInputTextField(
-            contr: controller.state.nameController,
-            descrip: 'Name',
-            obsecure: false,
-            icon: Icons.drive_file_rename_outline,
-            labelText: 'Name',
-            readOnly: false,
-          ),
-          AddUserInputTextField(
-            contr: controller.state.phoneController,
-            descrip: 'PhoneNo',
-            obsecure: false,
-            icon: Icons.phone,
-            labelText: 'PhoneNo',
-            readOnly: false,
-          ),
-          AddUserInputTextField(
             contr: controller.state.rollNoController,
             descrip: 'RollNo',
             obsecure: false,
             icon: Icons.class_outlined,
             labelText: 'RollNo',
+            keyboardType: TextInputType.number,
+            readOnly: false,
+          ),
+          AddUserInputTextField(
+            contr: controller.state.phoneController,
+            descrip: 'PhoneNo',
+            keyboardType: TextInputType.number,
+            obsecure: false,
+            icon: Icons.phone,
+            labelText: 'PhoneNo',
             readOnly: false,
           ),
           _buildSelectGame(),
@@ -64,12 +58,13 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                   ? RoundButton(
                       title: 'Add User',
                       onPress: () {
-                        if (controller.state.nameController.text.isEmpty &&
-                            controller.state.gameValue.value == 'Select' &&
-                            controller.state.semValue.value == 'Select' &&
-                            controller.state.deptValue.value == 'Select' &&
-
-                            controller.state.rollNoController.text.isEmpty) {
+                        if (controller.state.nameController.text.isEmpty ||
+                            controller.state.rollNoController.text.isEmpty ||
+                            controller.state.phoneController.text.isEmpty ||
+                            controller.state.gameValue.value == 'Select' ||
+                            controller.state.semValue.value == 'Select' ||
+                            controller.state.deptValue.value == 'Select'
+                             ) {
                           CustomSnackBar.showSnackBar(
                               'Error', 'Fill all fields', Icons.info_outline);
                         } else {
@@ -83,7 +78,9 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                             rollNo: controller.state.rollNoController.text
                                 .trim()
                                 .toString(),
-                            game: controller.state.gameValue.value.toString(), department: '', semester: '',
+                            game: controller.state.gameValue.value.toString(),
+                            department: controller.state.deptValue.value.toString(),
+                            semester: controller.state.semValue.value.toString(),
                           );
                           controller.addUserDataToFirebase(user);
                         }
@@ -126,7 +123,7 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                     fontSize: 14,
                     textColor: Colors.black,
                   ),
-                  value: 'Taken Tag',
+                  value: 'TakenTag',
                 ),
                 DropdownMenuItem(
                   child: TextWidget(
@@ -134,7 +131,7 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                     fontSize: 14,
                     textColor: Colors.black,
                   ),
-                  value: 'Taken 7',
+                  value: 'Taken-7',
                 ),
                 DropdownMenuItem(
                   child: TextWidget(
@@ -142,7 +139,7 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                     fontSize: 14,
                     textColor: Colors.black,
                   ),
-                  value: 'Call Of Duty',
+                  value: 'Call-Of-Duty',
                 ),
                 DropdownMenuItem(
                   child: TextWidget(
@@ -159,6 +156,14 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                     textColor: Colors.black,
                   ),
                   value: 'Ludo',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: 'Pubg',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: 'Pubg',
                 ),
               ],
               onChanged: (value) {
@@ -282,40 +287,51 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                   items: [
                     DropdownMenuItem(
                       value: 'IT',
-                      child: TextWidget( title: 'IT'),
+                      child: TextWidget( title: 'IT',textColor: Colors.black,),
                     ),
                     DropdownMenuItem(
                       value: 'English',
-                      child: TextWidget( title: 'English'),
+                      child: TextWidget( title: 'English',textColor: Colors.black,),
                     ),
                     DropdownMenuItem(
                       value: 'Math',
-                      child: TextWidget( title: 'Math'),
+                      child: TextWidget( title: 'Math',textColor: Colors.black,),
                     ),
                     DropdownMenuItem(
                       value: 'Physics',
-                      child: TextWidget( title: 'Physics'),
+                      child: TextWidget( title: 'Physics',textColor: Colors.black,),
                     ),
                     DropdownMenuItem(
                       value: 'Economics',
-                      child: TextWidget( title: 'Economics'),
+                      child: TextWidget( title: 'Economics',textColor: Colors.black,),
                     ),
                     DropdownMenuItem(
                       value: 'Biology',
-                      child: TextWidget( title: 'Biology'),
+                      child: TextWidget( title: 'Biology',textColor: Colors.black,),
                     ),
                     DropdownMenuItem(
                       value: 'Urdu',
-                      child: TextWidget( title: 'Urdu'),
+                      child: TextWidget( title: 'Urdu',textColor: Colors.black,),
                     ),
                     DropdownMenuItem(
                       value: 'Chemistry',
-                      child: TextWidget( title: 'Chemistry'),
+                      child: TextWidget( title: 'Chemistry',textColor: Colors.black,),
                     ),
-
                     DropdownMenuItem(
                       value: 'Pak Studies',
-                      child: TextWidget( title: 'Pak Studies'),
+                      child: TextWidget( title: 'Pak Studies',textColor: Colors.black,),
+                    ),
+                    DropdownMenuItem(
+                      value: 'PolSciences',
+                      child: TextWidget( title: 'Pol Sciences',textColor: Colors.black,),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Education',
+                      child: TextWidget( title: 'Education',textColor: Colors.black,),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Islamiyat',
+                      child: TextWidget( title: 'Islamiyat',textColor: Colors.black,),
                     ),
                   ],
 

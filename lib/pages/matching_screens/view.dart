@@ -1,15 +1,13 @@
 import 'package:e_gamming_matcher/component/routes/route_name.dart';
 import 'package:e_gamming_matcher/component/style/colors.dart';
-import 'package:e_gamming_matcher/pages/home_screen/controller.dart';
+import 'package:e_gamming_matcher/component/style/text_widget.dart';
 import 'package:e_gamming_matcher/pages/home_screen/widgets/home_widget.dart';
-import 'package:e_gamming_matcher/pages/matching_screens/view.dart';
+import 'package:e_gamming_matcher/pages/matching_screens/draws_screen/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../component/style/text_widget.dart';
-
-class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({super.key});
+class MatchingScreenView extends StatelessWidget {
+  const MatchingScreenView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +15,7 @@ class HomeScreen extends GetView<HomeController> {
       appBar: AppBar(
         title: TextWidget(
           fontSize: 19,
-          title:'Add User',
+          title:'Games',
 
 
         ),
@@ -29,25 +27,23 @@ class HomeScreen extends GetView<HomeController> {
         child: Column(
           children: [
             HomeWidget(
-              title: 'Add',
-              icon: Icons.add,
+              title: 'Tekken-7',
+              icon: Icons.gamepad,
               onpress: () {
-                Get.toNamed(RoutesName.addUserScreen);
+                // Get.toNamed(RoutesName.addUserScreen);
+                Get.to(()=>DrawsScreen(game: 'Taken-7'));
+
               },
             ),
-            HomeWidget(
-                title: 'All Users',
-                onpress: () {},
-                icon: Icons.border_all_sharp),
-            HomeWidget(
-                title: 'Matching', onpress: () {
-                Get.toNamed(RoutesName.matchScreen);
-            },
-                icon: Icons.roundabout_left)
+            // HomeWidget(
+            //     title: 'All Users',
+            //     onpress: () {},
+            //     icon: Icons.border_all_sharp),
+            // HomeWidget(
+            //     title: 'Matching', onpress: () {}, icon: Icons.roundabout_left)
           ],
         ),
       ),
     );
   }
 }
-

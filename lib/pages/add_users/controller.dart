@@ -15,7 +15,6 @@ class AddUserScreenController extends GetxController {
     state.loading.value = value;
   }
 
-
   addUserDataToFirebase(UserModel userModel) async {
     final id = DateTime.now().millisecondsSinceEpoch.toString();
     try {
@@ -27,34 +26,31 @@ class AddUserScreenController extends GetxController {
             userModel.toJson(),
           )
           .then((value) {
-        print('added');
-        CustomSnackBar.showSnackBar('Success', 'Add data successfully',Icons.done_all);
-
         updateId(id);
         clearControllers();
-        setLoading(false);
       }).onError((error, stackTrace) {
-        print('error');
-        CustomSnackBar.showSnackBar('Error', 'Something went wrong',Icons.info_outline);
-
+        CustomSnackBar.showSnackBar(
+            'Error', 'Something went wrong', Icons.info_outline);
         setLoading(false);
       });
     } catch (e) {
-      print(e.toString());
-      CustomSnackBar.showSnackBar('Error', 'Something went wrong',Icons.info_outline);
-
+      CustomSnackBar.showSnackBar(
+          'Error', 'Something went wrong', Icons.info_outline);
       setLoading(false);
     }
   }
-  
+
   updateId(String id) async {
     await FirebaseFirestore.instance.collection('users').doc(id).update({
-      'id' : id,
+      'id': id,
     }).then((value) {
-      print('id updated');
+      CustomSnackBar.showSnackBar(
+          'Success', 'User Registered Successfully', Icons.done_all);
+      setLoading(false);
+    }).onError((error, stackTrace){
+      CustomSnackBar.showSnackBar('Error', error.toString(), Icons.info_outline);
     });
   }
-
 
   clearControllers() {
     state.gameValue.value = 'Select';
@@ -64,6 +60,5 @@ class AddUserScreenController extends GetxController {
     state.rollNoController.clear();
     state.nameController.clear();
     state.phoneController.clear();
-
   }
 }

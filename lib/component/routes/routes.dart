@@ -3,6 +3,7 @@ import 'package:e_gamming_matcher/pages/add_users/bindings.dart';
 import 'package:e_gamming_matcher/pages/add_users/view.dart';
 import 'package:e_gamming_matcher/pages/home_screen/bindings.dart';
 import 'package:e_gamming_matcher/pages/home_screen/view.dart';
+import 'package:e_gamming_matcher/pages/matching_screens/view.dart';
 import 'package:e_gamming_matcher/pages/splash_screen/bindings.dart';
 import 'package:e_gamming_matcher/pages/splash_screen/view.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,10 @@ class AppPages {
       name: RoutesName.addUserScreen,
       page: () => AddUserScreen(),
       binding: AddUserScreenBindings(),
+    ),
+    GetPage(
+      name: RoutesName.matchScreen,
+      page: () => MatchingScreenView(),
     ),
   ];
 }
