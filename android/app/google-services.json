@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684836141637",
+    "project_id": "e-gaming-db",
+    "storage_bucket": "e-gaming-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684836141637:android:1299a6983a9f7757a6812c",
+        "android_client_info": {
+          "package_name": "com.example.e_gamming_matcher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4yKqQwnhGa2lTJ2zkOC-Al1pknM7l5sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
