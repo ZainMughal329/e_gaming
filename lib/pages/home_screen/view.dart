@@ -37,7 +37,9 @@ class HomeScreen extends GetView<HomeController> {
             ),
             HomeWidget(
                 title: 'All Users',
-                onpress: () {},
+                onpress: () {
+                  Get.toNamed(RoutesName.allUsersScreen);
+                },
                 icon: Icons.border_all_sharp),
             HomeWidget(
                 title: 'Matching', onpress: () {

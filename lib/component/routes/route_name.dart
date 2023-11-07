@@ -3,5 +3,7 @@ class RoutesName {
   static const homeScreen = "/home";
   static const addUserScreen = "/addUser";
   static const matchScreen = "/matchScreen";
+  static const allUsersScreen = "/allUsers";
+
 
 }

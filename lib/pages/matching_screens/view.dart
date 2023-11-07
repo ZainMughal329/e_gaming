@@ -37,7 +37,7 @@ class MatchingScreenView extends StatelessWidget {
                 icon: Icons.gamepad,
                 onpress: () {
                   // Get.toNamed(RoutesName.addUserScreen);
-                  Get.to(()=>DrawsScreen(game: 'Taken-7'));
+                  Get.to(()=>DrawsScreen(game: 'Taken-6'));
 
                 },
               ),

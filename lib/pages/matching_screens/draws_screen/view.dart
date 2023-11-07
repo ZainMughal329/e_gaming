@@ -18,6 +18,7 @@ class DrawsScreen extends GetView<DrawsScreenController> {
   @override
   Widget build(BuildContext context) {
     controller.state.gameValue = game;
+    controller.refreshRandomData(game);
     return Scaffold(
       appBar: AppBar(
         title: TextWidget(
@@ -57,7 +58,7 @@ class DrawsScreen extends GetView<DrawsScreenController> {
                   child: Text("Snapshot error"),
                 );
               }
-              if (snapshot.data!.docs.isEmpty) {
+              if (snapshot.data!.docs.isEmpty || controller.state.x.value == 0 || controller.state.y.value == 0 ) {
                 return Center(
                   child: Text('No Users in the Database'),
                 );
