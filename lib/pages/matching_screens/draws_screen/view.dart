@@ -7,13 +7,34 @@ import 'package:e_gamming_matcher/pages/matching_screens/draws_screen/controller
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../component/style/colors.dart';
+import '../../../component/style/text_widget.dart';
+
 class DrawsScreen extends GetView<DrawsScreenController> {
   String game;
+
   DrawsScreen({Key? key, required this.game}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     controller.state.gameValue = game;
     return Scaffold(
+      appBar: AppBar(
+        title: TextWidget(
+          fontSize: 19,
+          title: game,
+        ),
+        backgroundColor: AppColors.iconColor,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: StreamBuilder(
@@ -41,36 +62,79 @@ class DrawsScreen extends GetView<DrawsScreenController> {
                   child: Text('No Users in the Database'),
                 );
               }
-              int dataLength = snapshot.data!.docs.length;
-              Random random = Random();
-              int x = random
-                  .nextInt(dataLength); // Replace 100 with your desired range
-              int y;
-              do {
-                y = random
-                    .nextInt(dataLength); // Replace 100 with your desired range
-              } while (y == x);
-              return Column(
-                children: [
-                  StudentCard(
-                    name: snapshot.data!.docs[x]['userName'].toString(),
-                    rollNo: snapshot.data!.docs[x]['rollNo'].toString(),
-                    phoneNumber: snapshot.data!.docs[x]['phone'].toString(),
-                    deptName: snapshot.data!.docs[x]['department'].toString(),
-                    gameName: snapshot.data!.docs[x]['game'].toString(),
-                    semester: snapshot.data!.docs[x]['semester'].toString(),
-                  ),
-                  StudentCard(
-                    name: snapshot.data!.docs[y]['userName'].toString(),
-                    rollNo: snapshot.data!.docs[y]['rollNo'].toString(),
-                    phoneNumber: snapshot.data!.docs[y]['phone'].toString(),
-                    deptName: snapshot.data!.docs[y]['department'].toString(),
-                    gameName: snapshot.data!.docs[y]['game'].toString(),
-                    semester: snapshot.data!.docs[y]['semester'].toString(),
-                  ),
-                  RoundButton(title: 'Refresh', onPress: () {})
-                ],
-              );
+
+              return Obx(() => Column(
+                    children: [
+                      controller.state.x.value != 0 ? StudentCard(
+                        name: snapshot
+                            .data!.docs[controller.state.x.value]['userName']
+                            .toString(),
+                        rollNo: snapshot
+                            .data!.docs[controller.state.x.value]['rollNo']
+                            .toString(),
+                        phoneNumber: snapshot
+                            .data!.docs[controller.state.x.value]['phone']
+                            .toString(),
+                        deptName: snapshot
+                            .data!.docs[controller.state.x.value]['department']
+                            .toString(),
+                        gameName: snapshot
+                            .data!.docs[controller.state.x.value]['game']
+                            .toString(),
+                        semester: snapshot
+                            .data!.docs[controller.state.x.value]['semester']
+                            .toString(),
+                        onTap: () {
+                          controller.deleteUser(
+                            snapshot.data!.docs[controller.state.x.value]['id']
+                                .toString(),
+                          );
+                          controller.refreshRandomData(game);
+                          Navigator.of(context).pop();
+                        },
+                      ) : Container(),
+                      controller.state.y.value != 0
+                          ? StudentCard(
+                              name: snapshot.data!
+                                  .docs[controller.state.y.value]['userName']
+                                  .toString(),
+                              rollNo: snapshot.data!
+                                  .docs[controller.state.y.value]['rollNo']
+                                  .toString(),
+                              phoneNumber: snapshot
+                                  .data!.docs[controller.state.y.value]['phone']
+                                  .toString(),
+                              deptName: snapshot.data!
+                                  .docs[controller.state.y.value]['department']
+                                  .toString(),
+                              gameName: snapshot
+                                  .data!.docs[controller.state.y.value]['game']
+                                  .toString(),
+                              semester: snapshot.data!
+                                  .docs[controller.state.y.value]['semester']
+                                  .toString(),
+                              onTap: () {
+                                controller.deleteUser(
+                                  snapshot.data!
+                                      .docs[controller.state.y.value]['id']
+                                      .toString(),
+                                );
+                                controller.refreshRandomData(game);
+
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          :
+
+                      Container(),
+
+                      RoundButton(
+                          title: 'Refresh',
+                          onPress: () {
+                            controller.refreshRandomData(game);
+                          })
+                    ],
+                  ));
               // return ListView.builder(
               //   itemCount: snapshot.data!.docs.length,
               //   itemBuilder: (context, index) {
