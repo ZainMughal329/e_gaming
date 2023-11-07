@@ -16,12 +16,17 @@ class DrawsScreenController extends GetxController {
       QuerySnapshot snapshot = await collectionReference.where('game' , isEqualTo: game).get();
       int dataLength = snapshot.docs.length;
       Random random = Random();
+
       do {
         state.x.value = random.nextInt(dataLength);
       }while(state.x.value == 0);
       do{
         state.y.value = random.nextInt(dataLength);
       }while(state.y == state.x || state.y.value == 0);
+
+
+
+
       print('y : ' + state.y.value.toString());
       print('x : ' + state.x.value.toString());
 

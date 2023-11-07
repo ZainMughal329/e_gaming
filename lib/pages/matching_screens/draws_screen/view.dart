@@ -58,16 +58,29 @@ class DrawsScreen extends GetView<DrawsScreenController> {
                   child: Text("Snapshot error"),
                 );
               }
-              if (snapshot.data!.docs.isEmpty || controller.state.x.value == 0 || controller.state.y.value == 0 ) {
+
+
+
+                  if (snapshot.data!.docs.isEmpty || controller.state.x.value == 0 || controller.state.y.value == 0 ) {
                 return Center(
-                  child: Text('No Users in the Database'),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('No Users in the Database'),
+                      RoundButton(
+                          title: 'Refresh',
+                          onPress: () {
+                            controller.refreshRandomData(game);
+                          })
+                    ],
+                  ),
                 );
               }
-
               return Obx(() => Column(
                     children: [
+                      snapshot.data!.docs.length == 3 ? TextWidget(title: 'Semi-Final',fontSize: 30,textColor: Colors.black,):Container(),
+                      snapshot.data!.docs.length == 2 ? TextWidget(title: 'Finals',fontSize: 30,textColor: Colors.black,):Container(),
                       controller.state.x.value != 0 ?
-
                       StudentCard(
                         name: snapshot
                             .data!.docs[controller.state.x.value]['userName']
@@ -127,9 +140,7 @@ class DrawsScreen extends GetView<DrawsScreenController> {
                                 Navigator.of(context).pop();
                               },
                             )
-                          :
-
-                      Container(),
+                          : Container(),
 
                       RoundButton(
                           title: 'Refresh',
