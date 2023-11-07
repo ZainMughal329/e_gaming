@@ -66,7 +66,9 @@ class DrawsScreen extends GetView<DrawsScreenController> {
 
               return Obx(() => Column(
                     children: [
-                      controller.state.x.value != 0 ? StudentCard(
+                      controller.state.x.value != 0 ?
+
+                      StudentCard(
                         name: snapshot
                             .data!.docs[controller.state.x.value]['userName']
                             .toString(),
