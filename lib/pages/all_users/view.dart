@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_gamming_matcher/component/style/snackbar.dart';
 import 'package:e_gamming_matcher/component/style/text_widget.dart';
 import 'package:e_gamming_matcher/pages/all_users/controller.dart';
+import 'package:e_gamming_matcher/pages/matching_screens/edit_user/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,99 +14,121 @@ class AllUserScreen extends GetView<AllUserScreenController> {
   _buildListView(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot,
       int index, String value) {
     return controller.state.dropDownValue.value == 'All'
-        ? Card(
-            color: AppColors.iconColor,
-            margin: EdgeInsets.only(right: 16, left: 16, top: 12),
-            elevation: 4.0,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextWidget(
-                    title: 'RollNo: ' +
-                        snapshot.data!.docs[index]['rollNo'].toString(),
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  SizedBox(height: 8.0),
-                  TextWidget(
-                    title: 'Name: ' +
-                        snapshot.data!.docs[index]['userName']
-                            .toString()
-                            .capitalizeFirst
-                            .toString(),
-                    fontSize: 15,
-                  ),
-                  SizedBox(height: 8.0),
-                  TextWidget(
-                    title: 'Semester: ' +
-                        snapshot.data!.docs[index]['semester'].toString(),
-                    fontSize: 15,
-                  ),
-                  SizedBox(height: 8.0),
-                  TextWidget(
-                    title: 'Department: ' +
-                        snapshot.data!.docs[index]['department'].toString(),
-                    fontSize: 15,
-                  ),
-                  SizedBox(height: 8.0),
-                  TextWidget(
-                    title: 'Game To Play: ' +
-                        snapshot.data!.docs[index]['game'].toString(),
-                    fontSize: 15,
-                  ),
-                ],
+        ? InkWell(
+      onLongPress: (){
+        Get.to(()=>EditUserScreen(id: snapshot.data!.docs[index]['id'].toString()));
+      },
+          child: Card(
+              color: AppColors.iconColor,
+              margin: EdgeInsets.only(right: 16, left: 16, top: 12),
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextWidget(
+                      title: 'RollNo: ' +
+                          snapshot.data!.docs[index]['rollNo'].toString(),
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(height: 8.0),
+                    TextWidget(
+                      title: 'Name: ' +
+                          snapshot.data!.docs[index]['userName']
+                              .toString()
+                              .capitalizeFirst
+                              .toString(),
+                      fontSize: 15,
+                    ),
+                    SizedBox(height: 8.0),
+                    TextWidget(
+                      title: 'Semester: ' +
+                          snapshot.data!.docs[index]['semester'].toString(),
+                      fontSize: 15,
+                    ),
+                    SizedBox(height: 8.0),
+                    TextWidget(
+                      title: 'Department: ' +
+                          snapshot.data!.docs[index]['department'].toString(),
+                      fontSize: 15,
+                    ),
+                    SizedBox(height: 8.0),
+                    TextWidget(
+                      title: 'Game To Play: ' +
+                          snapshot.data!.docs[index]['game'].toString(),
+                      fontSize: 15,
+                    ),
+                    SizedBox(height: 8.0),
+                    TextWidget(
+                      title: 'Lost: ' +
+                          snapshot.data!.docs[index]['isLose'].toString(),
+                      fontSize: 15,
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
+        )
         : snapshot.data!.docs[index]['game'].toString() == value
-            ? snapshot.data!.docs.length != 0 ? Card(
-                color: AppColors.iconColor,
-                margin: EdgeInsets.only(right: 16, left: 16, top: 12),
-                elevation: 4.0,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextWidget(
-                        title: 'RollNo: ' +
-                            snapshot.data!.docs[index]['rollNo'].toString(),
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      SizedBox(height: 8.0),
-                      TextWidget(
-                        title: 'Name: ' +
-                            snapshot.data!.docs[index]['userName']
-                                .toString()
-                                .capitalizeFirst
-                                .toString(),
-                        fontSize: 15,
-                      ),
-                      SizedBox(height: 8.0),
-                      TextWidget(
-                        title: 'Semester: ' +
-                            snapshot.data!.docs[index]['semester'].toString(),
-                        fontSize: 15,
-                      ),
-                      SizedBox(height: 8.0),
-                      TextWidget(
-                        title: 'Department: ' +
-                            snapshot.data!.docs[index]['department'].toString(),
-                        fontSize: 15,
-                      ),
-                      SizedBox(height: 8.0),
-                      TextWidget(
-                        title: 'Game To Play: ' +
-                            snapshot.data!.docs[index]['game'].toString(),
-                        fontSize: 15,
-                      ),
-                    ],
+            ? snapshot.data!.docs.length != 0 ? InkWell(
+      onLongPress: (){
+        Get.to(()=>EditUserScreen(id: snapshot.data!.docs[index]['id'].toString()));
+      },
+      child: Card(
+                  color: AppColors.iconColor,
+                  margin: EdgeInsets.only(right: 16, left: 16, top: 12),
+                  elevation: 4.0,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          title: 'RollNo: ' +
+                              snapshot.data!.docs[index]['rollNo'].toString(),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        SizedBox(height: 8.0),
+                        TextWidget(
+                          title: 'Name: ' +
+                              snapshot.data!.docs[index]['userName']
+                                  .toString()
+                                  .capitalizeFirst
+                                  .toString(),
+                          fontSize: 15,
+                        ),
+                        SizedBox(height: 8.0),
+                        TextWidget(
+                          title: 'Semester: ' +
+                              snapshot.data!.docs[index]['semester'].toString(),
+                          fontSize: 15,
+                        ),
+                        SizedBox(height: 8.0),
+                        TextWidget(
+                          title: 'Department: ' +
+                              snapshot.data!.docs[index]['department'].toString(),
+                          fontSize: 15,
+                        ),
+                        SizedBox(height: 8.0),
+                        TextWidget(
+                          title: 'Game To Play: ' +
+                              snapshot.data!.docs[index]['game'].toString(),
+                          fontSize: 15,
+                        ),
+                        SizedBox(height: 8.0),
+                        TextWidget(
+                          title: 'Lost: ' +
+                              snapshot.data!.docs[index]['isLose'].toString(),
+                          fontSize: 15,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ) : Center(
+            ) : Center(
       child: TextWidget(title: 'No entries yet.',textColor: Colors.black,),
     )
             : Container();
@@ -271,7 +294,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                           alignment: Alignment.bottomCenter,
                           // bottom: -50,
                           child: Container(
-                            height: 60,
+                            height: 80,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: Colors.black,
@@ -331,6 +354,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                                         fontSize: 19,
                                         fontWeight: FontWeight.bold,
                                       )),
+
                                 ],
                               ),
                             ),

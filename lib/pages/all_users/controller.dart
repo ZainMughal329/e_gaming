@@ -27,8 +27,24 @@ class AllUserScreenController extends GetxController {
         .collection('users')
         .where('game', isEqualTo: 'Taken-6')
         .get();
+    QuerySnapshot lostSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('game', isEqualTo: 'Taken-6')
+    .where('isLose', isEqualTo: 'true')
+        .get();
+    QuerySnapshot remSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('game', isEqualTo: 'Taken-6')
+        .where('isLose', isEqualTo: 'false')
+        .get();
     if (snapshot.docs.isNotEmpty) {
       state.taken_6 = snapshot.docs.length;
+    }
+    if (lostSnapshot.docs.isNotEmpty) {
+      state.taken_6_lost = lostSnapshot.docs.length;
+    }
+    if (remSnapshot.docs.isNotEmpty) {
+      state.taken_6_lost = remSnapshot.docs.length;
     }
   }
 

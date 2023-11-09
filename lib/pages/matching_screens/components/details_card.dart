@@ -10,6 +10,7 @@ class StudentCard extends StatelessWidget {
   final String gameName;
   final String semester;
   VoidCallback onTap;
+  VoidCallback onTapLost;
 
   StudentCard({
     required this.name,
@@ -19,6 +20,7 @@ class StudentCard extends StatelessWidget {
     required this.gameName,
     required this.semester,
     required this.onTap,
+    required this.onTapLost,
   });
 
   @override
@@ -30,20 +32,43 @@ class StudentCard extends StatelessWidget {
           builder: (BuildContext context) {
             return AlertDialog(
               content: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-
                     InkWell(
                       onTap: onTap,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.edit,color: AppColors.iconColor,),
 
-                          TextWidget(title: "Edit",textColor: Colors.black,),
+
+                          TextWidget(title: "Edit User",textColor: Colors.black,fontSize: 20,),
+                          SizedBox(width: 5,),
+                          Icon(Icons.edit,color: AppColors.iconColor,),
                         ],
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Divider(),
+                    ),
+                    InkWell(
+                      onTap: onTapLost,
+                      child: Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+
+                            TextWidget(title: "Lost",textColor: Colors.black,fontSize: 20,),
+                            SizedBox(width: 5,),
+                            Icon(Icons.cancel_outlined,color: AppColors.iconColor,),
+                          ],
+                        ),
                       ),
                     ),
                   ],

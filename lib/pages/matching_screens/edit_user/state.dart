@@ -12,5 +12,7 @@ class EditUserState{
 
   RxBool loading = false.obs;
 
+  // RxBool updateLoading = false.obs;
+
 
 }

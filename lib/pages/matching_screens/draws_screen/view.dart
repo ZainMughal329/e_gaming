@@ -38,164 +38,236 @@ class DrawsScreen extends GetView<DrawsScreenController> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: StreamBuilder(
-            stream: controller.ref
-                .where('game', isEqualTo: controller.state.gameValue)
-                .where('isLose', isEqualTo: 'false')
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xFF283593),
-                  ),
-                );
-              }
-              if (snapshot.hasError) {
-                CustomSnackBar.showSnackBar(
-                    'Error', snapshot.error.toString(), Icons.info_outline);
-                return Container(
-                  child: Text("Snapshot error"),
-                );
-              }
+      body: Obx(() {
+        return controller.state.loading.value == true
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SafeArea(
+                child: SingleChildScrollView(
+                  child: StreamBuilder(
+                    stream: controller.ref
+                        .where('game', isEqualTo: controller.state.gameValue)
+                        .where('isLose', isEqualTo: 'false')
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF283593),
+                          ),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        CustomSnackBar.showSnackBar('Error',
+                            snapshot.error.toString(), Icons.info_outline);
+                        return Container(
+                          child: Text("Snapshot error"),
+                        );
+                      }
 
-              if (snapshot.data!.docs.isEmpty ||
-                  controller.state.x.value == 0 ||
-                  controller.state.y.value == 0) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('No Users in the Database'),
-                      RoundButton(
-                          title: 'Refresh',
-                          onPress: () {
-                            controller.refreshRandomData(game);
-                          })
-                    ],
-                  ),
-                );
-              }
-              return Obx(() => Column(
-                    children: [
-                      snapshot.data!.docs.length == 3
-                          ? TextWidget(
-                              title: 'Semi-Final',
-                              fontSize: 30,
-                              textColor: Colors.black,
-                            )
-                          : Container(),
-                      snapshot.data!.docs.length == 2
-                          ? TextWidget(
-                              title: 'Finals',
-                              fontSize: 30,
-                              textColor: Colors.black,
-                            )
-                          : Container(),
-                      controller.state.x.value != 0
-                          ? StudentCard(
-                              name: snapshot.data!
-                                  .docs[controller.state.x.value]['userName']
-                                  .toString(),
-                              rollNo: snapshot.data!
-                                  .docs[controller.state.x.value]['rollNo']
-                                  .toString(),
-                              phoneNumber: snapshot
-                                  .data!.docs[controller.state.x.value]['phone']
-                                  .toString(),
-                              deptName: snapshot.data!
-                                  .docs[controller.state.x.value]['department']
-                                  .toString(),
-                              gameName: snapshot
-                                  .data!.docs[controller.state.x.value]['game']
-                                  .toString(),
-                              semester: snapshot.data!
-                                  .docs[controller.state.x.value]['semester']
-                                  .toString(),
-                              onTap: () {
-                                // controller.deleteUser(
-                                //   snapshot.data!
-                                //       .docs[controller.state.x.value]['id']
-                                //       .toString(),
-                                // );
-                                // controller.refreshRandomData(game);
-                                Navigator.of(context).pop();
-                                Get.to(
-                                  () => EditUserScreen(
-                                    id: snapshot.data!
-                                        .docs[controller.state.x.value]['id']
-                                        .toString(),
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
-                      controller.state.y.value != 0
-                          ? StudentCard(
-                              name: snapshot.data!
-                                  .docs[controller.state.y.value]['userName']
-                                  .toString(),
-                              rollNo: snapshot.data!
-                                  .docs[controller.state.y.value]['rollNo']
-                                  .toString(),
-                              phoneNumber: snapshot
-                                  .data!.docs[controller.state.y.value]['phone']
-                                  .toString(),
-                              deptName: snapshot.data!
-                                  .docs[controller.state.y.value]['department']
-                                  .toString(),
-                              gameName: snapshot
-                                  .data!.docs[controller.state.y.value]['game']
-                                  .toString(),
-                              semester: snapshot.data!
-                                  .docs[controller.state.y.value]['semester']
-                                  .toString(),
-                              onTap: () {
-                                // controller.deleteUser(
-                                //   snapshot.data!
-                                //       .docs[controller.state.x.value]['id']
-                                //       .toString(),
-                                // );
-                                // controller.refreshRandomData(game);
-                                Navigator.of(context).pop();
+                      if (snapshot.data!.docs.isEmpty
+                          // controller.state.x.value == 0 ||
+                          // controller.state.y.value == 0
+                          ) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('No Users in the Database'),
+                              RoundButton(
+                                  title: 'Refresh',
+                                  onPress: () {
+                                    controller.refreshRandomData(game);
+                                  })
+                            ],
+                          ),
+                        );
+                      }
+                      return Obx(() => Column(
+                            children: [
+                              snapshot.data!.docs.length == 3
+                                  ? TextWidget(
+                                      title: 'Semi-Final',
+                                      fontSize: 30,
+                                      textColor: Colors.black,
+                                    )
+                                  : Container(),
+                              snapshot.data!.docs.length == 2
+                                  ? TextWidget(
+                                      title: 'Finals',
+                                      fontSize: 30,
+                                      textColor: Colors.black,
+                                    )
+                                  : Container(),
+                              snapshot.data!.docs.length == 1
+                                  ? TextWidget(
+                                title: 'Winner',
+                                fontSize: 30,
+                                textColor: Colors.black,
+                              )
+                                  : Container(),
+                              // pasted studentcard
+                              StudentCard(
+                                name: snapshot.data!
+                                    .docs[controller.state.x.value]['userName']
+                                    .toString(),
+                                rollNo: snapshot.data!
+                                    .docs[controller.state.x.value]['rollNo']
+                                    .toString(),
+                                phoneNumber: snapshot.data!
+                                    .docs[controller.state.x.value]['phone']
+                                    .toString(),
+                                deptName: snapshot
+                                    .data!
+                                    .docs[controller.state.x.value]
+                                        ['department']
+                                    .toString(),
+                                gameName: snapshot.data!
+                                    .docs[controller.state.x.value]['game']
+                                    .toString(),
+                                semester: snapshot.data!
+                                    .docs[controller.state.x.value]['semester']
+                                    .toString(),
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  Get.to(
+                                    () => EditUserScreen(
+                                      id: snapshot.data!
+                                          .docs[controller.state.x.value]['id']
+                                          .toString(),
+                                    ),
+                                  );
+                                },
+                                onTapLost: () async {
+                                  Navigator.pop(context);
+                                  controller.setLoading(true);
+                                  String id = snapshot.data!
+                                      .docs[controller.state.x.value]['id']
+                                      .toString();
+                                  controller.updateUser(id, game);
+                                },
+                              ),
+                              //commented card
+                              // controller.state.x.value != 0
+                              //     ? StudentCard(
+                              //         name: snapshot.data!
+                              //             .docs[controller.state.x.value]['userName']
+                              //             .toString(),
+                              //         rollNo: snapshot.data!
+                              //             .docs[controller.state.x.value]['rollNo']
+                              //             .toString(),
+                              //         phoneNumber: snapshot
+                              //             .data!.docs[controller.state.x.value]['phone']
+                              //             .toString(),
+                              //         deptName: snapshot.data!
+                              //             .docs[controller.state.x.value]['department']
+                              //             .toString(),
+                              //         gameName: snapshot
+                              //             .data!.docs[controller.state.x.value]['game']
+                              //             .toString(),
+                              //         semester: snapshot.data!
+                              //             .docs[controller.state.x.value]['semester']
+                              //             .toString(),
+                              //         onTap: () {
+                              //           // controller.deleteUser(
+                              //           //   snapshot.data!
+                              //           //       .docs[controller.state.x.value]['id']
+                              //           //       .toString(),
+                              //           // );
+                              //           // controller.refreshRandomData(game);
+                              //           Navigator.of(context).pop();
+                              //           Get.to(
+                              //             () => EditUserScreen(
+                              //               id: snapshot.data!
+                              //                   .docs[controller.state.x.value]['id']
+                              //                   .toString(),
+                              //             ),
+                              //           );
+                              //         },
+                              //       )
+                              //     : Container(),
+                              controller.state.y.value != 0
+                                  ? StudentCard(
+                                      name: snapshot
+                                          .data!
+                                          .docs[controller.state.y.value]
+                                              ['userName']
+                                          .toString(),
+                                      rollNo: snapshot
+                                          .data!
+                                          .docs[controller.state.y.value]
+                                              ['rollNo']
+                                          .toString(),
+                                      phoneNumber: snapshot
+                                          .data!
+                                          .docs[controller.state.y.value]
+                                              ['phone']
+                                          .toString(),
+                                      deptName: snapshot
+                                          .data!
+                                          .docs[controller.state.y.value]
+                                              ['department']
+                                          .toString(),
+                                      gameName: snapshot
+                                          .data!
+                                          .docs[controller.state.y.value]
+                                              ['game']
+                                          .toString(),
+                                      semester: snapshot
+                                          .data!
+                                          .docs[controller.state.y.value]
+                                              ['semester']
+                                          .toString(),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
 
-                                Get.to(
-                                  () => EditUserScreen(
-                                    id: snapshot.data!
-                                        .docs[controller.state.y.value]['id']
-                                        .toString(),
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
-                      RoundButton(
-                          title: 'Refresh',
-                          onPress: () {
-                            controller.refreshRandomData(game);
-                          })
-                    ],
-                  ));
-              // return ListView.builder(
-              //   itemCount: snapshot.data!.docs.length,
-              //   itemBuilder: (context, index) {
-              //     Random random = Random();
-              //     int x = random.nextInt(snapshot.data!.docs.length); // Replace 100 with your desired range
-              //     int y = random.nextInt(snapshot.data!.docs.length);
-              //     print("x value is"+ x.toString());
-              //     print("y value is"+ y.toString());
-              //    return ListTile(
-              //      title: Text(snapshot.data!.docs[x]['userName'].toString()),
-              //    );
-              //   },
-              // );
-            },
-          ),
-        ),
-      ),
+                                        Get.to(
+                                          () => EditUserScreen(
+                                            id: snapshot
+                                                .data!
+                                                .docs[controller.state.y.value]
+                                                    ['id']
+                                                .toString(),
+                                          ),
+                                        );
+                                      },
+                                      onTapLost: () {
+                                        Navigator.pop(context);
+                                        controller.setLoading(true);
+                                        String id = snapshot.data!
+                                            .docs[controller.state.y.value]['id']
+                                            .toString();
+                                        controller.updateUser(id, game);
+                                      },
+                                    )
+                                  : Container(),
+                              snapshot.data!.docs.length==1 ? Container() : RoundButton(
+                                  title: 'Refresh',
+                                  onPress: () {
+                                    controller.refreshRandomData(game);
+                                  }),
+                            ],
+                          ));
+                      // return ListView.builder(
+                      //   itemCount: snapshot.data!.docs.length,
+                      //   itemBuilder: (context, index) {
+                      //     Random random = Random();
+                      //     int x = random.nextInt(snapshot.data!.docs.length); // Replace 100 with your desired range
+                      //     int y = random.nextInt(snapshot.data!.docs.length);
+                      //     print("x value is"+ x.toString());
+                      //     print("y value is"+ y.toString());
+                      //    return ListTile(
+                      //      title: Text(snapshot.data!.docs[x]['userName'].toString()),
+                      //    );
+                      //   },
+                      // );
+                    },
+                  ),
+                ),
+              );
+      }),
     );
   }
 }

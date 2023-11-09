@@ -89,7 +89,11 @@ class EditUserScreen extends GetView<EditUserScreenController> {
                         controller.updateUserData(
                           id,
                           controller.state.isLoseValue.value.toString(),
+                            controller.state.gameValue.value.toString()
                         );
+
+
+
                       },
                     )
                   : Container(
