@@ -1,6 +1,7 @@
 import 'package:e_gamming_matcher/component/routes/route_name.dart';
 import 'package:e_gamming_matcher/component/routes/routes.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/draws_screen/controller.dart';
+import 'package:e_gamming_matcher/pages/matching_screens/edit_user/controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,8 @@ void main() async {
           projectId: "e-gaming-db", messagingSenderId: ''),
   );
   Get.put(DrawsScreenController());
+  // Get.put(EditUserScreenController());
+
   runApp(const MyApp());
 }
 

@@ -40,9 +40,9 @@ class StudentCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.delete,color: AppColors.iconColor,),
+                          Icon(Icons.edit,color: AppColors.iconColor,),
 
-                          TextWidget(title: "Delete",textColor: Colors.black,),
+                          TextWidget(title: "Edit",textColor: Colors.black,),
                         ],
                       ),
                     ),

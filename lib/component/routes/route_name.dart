@@ -4,6 +4,8 @@ class RoutesName {
   static const addUserScreen = "/addUser";
   static const matchScreen = "/matchScreen";
   static const allUsersScreen = "/allUsers";
+  static const editUserScreen = "/editUser";
+
 
 
 }

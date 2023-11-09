@@ -7,7 +7,7 @@ class UserModel {
   final String semester;
   final String rollNo;
   final String department;
-
+  String? isLose;
   final String game;
 
   UserModel({
@@ -17,6 +17,7 @@ class UserModel {
     required this.semester,
     required this.game,
     required this.department,
+    this.isLose = 'false',
     required this.rollNo,
   });
 
@@ -28,6 +29,7 @@ class UserModel {
       'semester': semester,
       'game': game,
       'department': department,
+      'isLose' : isLose,
       'rollNo': rollNo,
     };
   }
@@ -43,6 +45,7 @@ class UserModel {
       semester: json['semester'],
       game: json["game"],
       department: json['department'],
+      isLose: json['isLose'],
       rollNo: json['rollNo'],
     );
   }

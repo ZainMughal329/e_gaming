@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class AddUserScreenState{
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController rollNoController = TextEditingController();
+class EditUserState{
 
   RxString gameValue = 'Select'.obs;
   RxString semValue = 'Select'.obs;
   RxString deptValue = 'Select'.obs;
   RxString isLoseValue = 'false'.obs;
 
+  Rx<bool> loaded = false.obs;
 
   RxBool loading = false.obs;
 

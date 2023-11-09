@@ -5,6 +5,8 @@ import 'package:e_gamming_matcher/pages/all_users/bindings.dart';
 import 'package:e_gamming_matcher/pages/all_users/view.dart';
 import 'package:e_gamming_matcher/pages/home_screen/bindings.dart';
 import 'package:e_gamming_matcher/pages/home_screen/view.dart';
+import 'package:e_gamming_matcher/pages/matching_screens/edit_user/bindings.dart';
+import 'package:e_gamming_matcher/pages/matching_screens/edit_user/view.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/view.dart';
 import 'package:e_gamming_matcher/pages/splash_screen/bindings.dart';
 import 'package:e_gamming_matcher/pages/splash_screen/view.dart';
@@ -37,6 +39,11 @@ class AppPages {
       name: RoutesName.allUsersScreen,
       page: () => AllUserScreen(),
       binding: AllUserScreenBindings(),
+    ),
+    GetPage(
+      name: RoutesName.editUserScreen,
+      page: () => EditUserScreen(id: ''),
+      binding: EditUserScreenBindings(),
     ),
   ];
 }

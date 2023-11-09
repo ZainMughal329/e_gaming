@@ -10,6 +10,7 @@ class AddUserInputTextField extends StatelessWidget {
   IconData icon;
   TextEditingController contr;
   String descrip;
+  String? hint;
   String labelText;
   bool readOnly;
 
@@ -19,6 +20,7 @@ class AddUserInputTextField extends StatelessWidget {
     required this.descrip,
     this.textInputAction,
     this.keyboardType,
+    this.hint,
     required this.obsecure,
     required this.icon,
     required this.labelText,
@@ -64,7 +66,7 @@ class AddUserInputTextField extends StatelessWidget {
             color: AppColors.iconColor,
           ),
           label: TextWidget(title: labelText, textColor: AppColors.iconColor,),
-          // hintText: descrip,
+          hintText: hint,
           hintStyle: GoogleFonts.poppins(fontSize: 16),
 
         ),),

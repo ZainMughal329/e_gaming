@@ -1,9 +1,11 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_gamming_matcher/component/routes/route_name.dart';
 import 'package:e_gamming_matcher/component/style/button.dart';
 import 'package:e_gamming_matcher/component/style/snackbar.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/components/details_card.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/draws_screen/controller.dart';
+import 'package:e_gamming_matcher/pages/matching_screens/edit_user/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,6 +43,7 @@ class DrawsScreen extends GetView<DrawsScreenController> {
           child: StreamBuilder(
             stream: controller.ref
                 .where('game', isEqualTo: controller.state.gameValue)
+                .where('isLose', isEqualTo: 'false')
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -59,9 +62,9 @@ class DrawsScreen extends GetView<DrawsScreenController> {
                 );
               }
 
-
-
-                  if (snapshot.data!.docs.isEmpty || controller.state.x.value == 0 || controller.state.y.value == 0 ) {
+              if (snapshot.data!.docs.isEmpty ||
+                  controller.state.x.value == 0 ||
+                  controller.state.y.value == 0) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -78,37 +81,58 @@ class DrawsScreen extends GetView<DrawsScreenController> {
               }
               return Obx(() => Column(
                     children: [
-                      snapshot.data!.docs.length == 3 ? TextWidget(title: 'Semi-Final',fontSize: 30,textColor: Colors.black,):Container(),
-                      snapshot.data!.docs.length == 2 ? TextWidget(title: 'Finals',fontSize: 30,textColor: Colors.black,):Container(),
-                      controller.state.x.value != 0 ?
-                      StudentCard(
-                        name: snapshot
-                            .data!.docs[controller.state.x.value]['userName']
-                            .toString(),
-                        rollNo: snapshot
-                            .data!.docs[controller.state.x.value]['rollNo']
-                            .toString(),
-                        phoneNumber: snapshot
-                            .data!.docs[controller.state.x.value]['phone']
-                            .toString(),
-                        deptName: snapshot
-                            .data!.docs[controller.state.x.value]['department']
-                            .toString(),
-                        gameName: snapshot
-                            .data!.docs[controller.state.x.value]['game']
-                            .toString(),
-                        semester: snapshot
-                            .data!.docs[controller.state.x.value]['semester']
-                            .toString(),
-                        onTap: () {
-                          controller.deleteUser(
-                            snapshot.data!.docs[controller.state.x.value]['id']
-                                .toString(),
-                          );
-                          controller.refreshRandomData(game);
-                          Navigator.of(context).pop();
-                        },
-                      ) : Container(),
+                      snapshot.data!.docs.length == 3
+                          ? TextWidget(
+                              title: 'Semi-Final',
+                              fontSize: 30,
+                              textColor: Colors.black,
+                            )
+                          : Container(),
+                      snapshot.data!.docs.length == 2
+                          ? TextWidget(
+                              title: 'Finals',
+                              fontSize: 30,
+                              textColor: Colors.black,
+                            )
+                          : Container(),
+                      controller.state.x.value != 0
+                          ? StudentCard(
+                              name: snapshot.data!
+                                  .docs[controller.state.x.value]['userName']
+                                  .toString(),
+                              rollNo: snapshot.data!
+                                  .docs[controller.state.x.value]['rollNo']
+                                  .toString(),
+                              phoneNumber: snapshot
+                                  .data!.docs[controller.state.x.value]['phone']
+                                  .toString(),
+                              deptName: snapshot.data!
+                                  .docs[controller.state.x.value]['department']
+                                  .toString(),
+                              gameName: snapshot
+                                  .data!.docs[controller.state.x.value]['game']
+                                  .toString(),
+                              semester: snapshot.data!
+                                  .docs[controller.state.x.value]['semester']
+                                  .toString(),
+                              onTap: () {
+                                // controller.deleteUser(
+                                //   snapshot.data!
+                                //       .docs[controller.state.x.value]['id']
+                                //       .toString(),
+                                // );
+                                // controller.refreshRandomData(game);
+                                Navigator.of(context).pop();
+                                Get.to(
+                                  () => EditUserScreen(
+                                    id: snapshot.data!
+                                        .docs[controller.state.x.value]['id']
+                                        .toString(),
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
                       controller.state.y.value != 0
                           ? StudentCard(
                               name: snapshot.data!
@@ -130,18 +154,24 @@ class DrawsScreen extends GetView<DrawsScreenController> {
                                   .docs[controller.state.y.value]['semester']
                                   .toString(),
                               onTap: () {
-                                controller.deleteUser(
-                                  snapshot.data!
-                                      .docs[controller.state.y.value]['id']
-                                      .toString(),
-                                );
-                                controller.refreshRandomData(game);
-
+                                // controller.deleteUser(
+                                //   snapshot.data!
+                                //       .docs[controller.state.x.value]['id']
+                                //       .toString(),
+                                // );
+                                // controller.refreshRandomData(game);
                                 Navigator.of(context).pop();
+
+                                Get.to(
+                                  () => EditUserScreen(
+                                    id: snapshot.data!
+                                        .docs[controller.state.y.value]['id']
+                                        .toString(),
+                                  ),
+                                );
                               },
                             )
                           : Container(),
-
                       RoundButton(
                           title: 'Refresh',
                           onPress: () {
