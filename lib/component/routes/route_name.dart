@@ -5,6 +5,7 @@ class RoutesName {
   static const matchScreen = "/matchScreen";
   static const allUsersScreen = "/allUsers";
   static const editUserScreen = "/editUser";
+  static const searchScreen = "/search";
 
 
 

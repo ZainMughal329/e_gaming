@@ -8,6 +8,8 @@ import 'package:e_gamming_matcher/pages/home_screen/view.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/edit_user/bindings.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/edit_user/view.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/view.dart';
+import 'package:e_gamming_matcher/pages/search/bindings.dart';
+import 'package:e_gamming_matcher/pages/search/view.dart';
 import 'package:e_gamming_matcher/pages/splash_screen/bindings.dart';
 import 'package:e_gamming_matcher/pages/splash_screen/view.dart';
 import 'package:get/get.dart';
@@ -44,6 +46,12 @@ class AppPages {
       name: RoutesName.editUserScreen,
       page: () => EditUserScreen(id: ''),
       binding: EditUserScreenBindings(),
+    ),
+
+    GetPage(
+      name: RoutesName.searchScreen,
+      page: () => SearchScreen(),
+      binding: SearchBindings(),
     ),
   ];
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_gamming_matcher/component/routes/route_name.dart';
 import 'package:e_gamming_matcher/component/style/snackbar.dart';
 import 'package:e_gamming_matcher/component/style/text_widget.dart';
 import 'package:e_gamming_matcher/pages/all_users/controller.dart';
@@ -15,10 +16,11 @@ class AllUserScreen extends GetView<AllUserScreenController> {
       int index, String value) {
     return controller.state.dropDownValue.value == 'All'
         ? InkWell(
-      onLongPress: (){
-        Get.to(()=>EditUserScreen(id: snapshot.data!.docs[index]['id'].toString()));
-      },
-          child: Card(
+            onLongPress: () {
+              Get.to(() => EditUserScreen(
+                  id: snapshot.data!.docs[index]['id'].toString()));
+            },
+            child: Card(
               color: AppColors.iconColor,
               margin: EdgeInsets.only(right: 16, left: 16, top: 12),
               elevation: 4.0,
@@ -70,67 +72,78 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                 ),
               ),
             ),
-        )
+          )
         : snapshot.data!.docs[index]['game'].toString() == value
-            ? snapshot.data!.docs.length != 0 ? InkWell(
-      onLongPress: (){
-        Get.to(()=>EditUserScreen(id: snapshot.data!.docs[index]['id'].toString()));
-      },
-      child: Card(
-                  color: AppColors.iconColor,
-                  margin: EdgeInsets.only(right: 16, left: 16, top: 12),
-                  elevation: 4.0,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextWidget(
-                          title: 'RollNo: ' +
-                              snapshot.data!.docs[index]['rollNo'].toString(),
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
+            ? snapshot.data!.docs.length != 0
+                ? InkWell(
+                    onLongPress: () {
+                      Get.to(() => EditUserScreen(
+                          id: snapshot.data!.docs[index]['id'].toString()));
+                    },
+                    child: Card(
+                      color: AppColors.iconColor,
+                      margin: EdgeInsets.only(right: 16, left: 16, top: 12),
+                      elevation: 4.0,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextWidget(
+                              title: 'RollNo: ' +
+                                  snapshot.data!.docs[index]['rollNo']
+                                      .toString(),
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            SizedBox(height: 8.0),
+                            TextWidget(
+                              title: 'Name: ' +
+                                  snapshot.data!.docs[index]['userName']
+                                      .toString()
+                                      .capitalizeFirst
+                                      .toString(),
+                              fontSize: 15,
+                            ),
+                            SizedBox(height: 8.0),
+                            TextWidget(
+                              title: 'Semester: ' +
+                                  snapshot.data!.docs[index]['semester']
+                                      .toString(),
+                              fontSize: 15,
+                            ),
+                            SizedBox(height: 8.0),
+                            TextWidget(
+                              title: 'Department: ' +
+                                  snapshot.data!.docs[index]['department']
+                                      .toString(),
+                              fontSize: 15,
+                            ),
+                            SizedBox(height: 8.0),
+                            TextWidget(
+                              title: 'Game To Play: ' +
+                                  snapshot.data!.docs[index]['game'].toString(),
+                              fontSize: 15,
+                            ),
+                            SizedBox(height: 8.0),
+                            TextWidget(
+                              title: 'Lost: ' +
+                                  snapshot.data!.docs[index]['isLose']
+                                      .toString(),
+                              fontSize: 15,
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 8.0),
-                        TextWidget(
-                          title: 'Name: ' +
-                              snapshot.data!.docs[index]['userName']
-                                  .toString()
-                                  .capitalizeFirst
-                                  .toString(),
-                          fontSize: 15,
-                        ),
-                        SizedBox(height: 8.0),
-                        TextWidget(
-                          title: 'Semester: ' +
-                              snapshot.data!.docs[index]['semester'].toString(),
-                          fontSize: 15,
-                        ),
-                        SizedBox(height: 8.0),
-                        TextWidget(
-                          title: 'Department: ' +
-                              snapshot.data!.docs[index]['department'].toString(),
-                          fontSize: 15,
-                        ),
-                        SizedBox(height: 8.0),
-                        TextWidget(
-                          title: 'Game To Play: ' +
-                              snapshot.data!.docs[index]['game'].toString(),
-                          fontSize: 15,
-                        ),
-                        SizedBox(height: 8.0),
-                        TextWidget(
-                          title: 'Lost: ' +
-                              snapshot.data!.docs[index]['isLose'].toString(),
-                          fontSize: 15,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-            ) : Center(
-      child: TextWidget(title: 'No entries yet.',textColor: Colors.black,),
-    )
+                  )
+                : Center(
+                    child: TextWidget(
+                      title: 'No entries yet.',
+                      textColor: Colors.black,
+                    ),
+                  )
             : Container();
   }
 
@@ -243,6 +256,17 @@ class AllUserScreen extends GetView<AllUserScreenController> {
               ),
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.toNamed(RoutesName.searchScreen);
+              },
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            )
+          ],
         ),
         body: SafeArea(
           child: Center(
@@ -275,7 +299,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                     return Stack(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 70),
+                          padding: const EdgeInsets.only(bottom: 110),
                           child: ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
@@ -284,7 +308,8 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                                   context,
                                   snapshot,
                                   index,
-                                  controller.state.dropDownValue.value.toString(),
+                                  controller.state.dropDownValue.value
+                                      .toString(),
                                 ),
                               );
                             },
@@ -294,7 +319,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                           alignment: Alignment.bottomCenter,
                           // bottom: -50,
                           child: Container(
-                            height: 80,
+                            height: 100,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: Colors.black,
@@ -304,57 +329,164 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                               ),
                             ),
                             child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              child: Column(
                                 children: [
-                                  TextWidget(title: 'Total Entries are : '),
-                                  Obx(() => TextWidget(
-                                        title: controller.state.dropDownValue
-                                                    .value ==
-                                                'All'
-                                            ? snapshot.data!.docs.length
-                                                .toString()
-                                            : controller.state.dropDownValue.value ==
-                                                    'Taken-6'
-                                                ? controller.state.taken_6
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextWidget(title: 'Remaining players : '),
+                                      Obx(() => TextWidget(
+                                            title: controller.state.dropDownValue.value ==
+                                                    'All'
+                                                ? controller.state.playersRemaining
                                                     .toString()
-                                                : controller.state.dropDownValue
-                                                            .value ==
-                                                        'TakenTag'
-                                                    ? controller.state.taken_tag
+                                                : controller.state.dropDownValue.value ==
+                                                        'Taken-6'
+                                                    ? controller.state
+                                                        .playersRemainingTaken6
                                                         .toString()
-                                                    : controller
-                                                                .state
-                                                                .dropDownValue
-                                                                .value ==
-                                                            'Ludo'
-                                                        ? controller
-                                                            .state.ludo
+                                                    : controller.state.dropDownValue.value ==
+                                                            'TakenTag'
+                                                        ? controller.state
+                                                            .playersRemainingTakenTag
                                                             .toString()
-                                                        : controller
-                                                                    .state
-                                                                    .dropDownValue
-                                                                    .value ==
-                                                                'Pubg'
-                                                            ? controller
-                                                                .state.pubg
+                                                        : controller.state.dropDownValue.value ==
+                                                                'Ludo'
+                                                            ? controller.state
+                                                                .playersRemainingLudo
                                                                 .toString()
                                                             : controller
                                                                         .state
                                                                         .dropDownValue
                                                                         .value ==
-                                                                    'NFS'
+                                                                    'Pubg'
                                                                 ? controller
-                                                                    .state.NFS
-                                                                    .toString()
-                                                                : controller
                                                                     .state
-                                                                    .call_of_duty
-                                                                    .toString(),
-                                        fontSize: 19,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-
+                                                                    .playersRemainingPubg
+                                                                    .toString()
+                                                                : controller.state.dropDownValue.value ==
+                                                                        'NFS'
+                                                                    ? controller
+                                                                        .state
+                                                                        .playersRemainingNFS
+                                                                        .toString()
+                                                                    : controller
+                                                                        .state
+                                                                        .playersRemainingCOD
+                                                                        .toString(),
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextWidget(title: 'Lost players : '),
+                                      Obx(() => TextWidget(
+                                            title: controller.state.dropDownValue.value ==
+                                                    'All'
+                                                ? controller.state.playersLost
+                                                    .toString()
+                                                : controller.state.dropDownValue.value ==
+                                                        'Taken-6'
+                                                    ? controller.state.playersLostTaken6
+                                                        .toString()
+                                                    : controller.state.dropDownValue.value ==
+                                                            'TakenTag'
+                                                        ? controller.state
+                                                            .playersLostTakenTag
+                                                            .toString()
+                                                        : controller
+                                                                    .state
+                                                                    .dropDownValue
+                                                                    .value ==
+                                                                'Ludo'
+                                                            ? controller.state
+                                                                .playersLostLudo
+                                                                .toString()
+                                                            : controller
+                                                                        .state
+                                                                        .dropDownValue
+                                                                        .value ==
+                                                                    'Pubg'
+                                                                ? controller
+                                                                    .state
+                                                                    .playersLostPubg
+                                                                    .toString()
+                                                                : controller.state.dropDownValue.value ==
+                                                                        'NFS'
+                                                                    ? controller
+                                                                        .state
+                                                                        .playersLostNFS
+                                                                        .toString()
+                                                                    : controller
+                                                                        .state
+                                                                        .playersLostCOD
+                                                                        .toString(),
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextWidget(title: 'Total Entries are : '),
+                                      Obx(() => TextWidget(
+                                            title: controller.state
+                                                        .dropDownValue.value ==
+                                                    'All'
+                                                ? snapshot.data!.docs.length
+                                                    .toString()
+                                                : controller.state.dropDownValue
+                                                            .value ==
+                                                        'Taken-6'
+                                                    ? controller.state.taken_6
+                                                        .toString()
+                                                    : controller
+                                                                .state
+                                                                .dropDownValue
+                                                                .value ==
+                                                            'TakenTag'
+                                                        ? controller.state.taken_tag
+                                                            .toString()
+                                                        : controller
+                                                                    .state
+                                                                    .dropDownValue
+                                                                    .value ==
+                                                                'Ludo'
+                                                            ? controller.state.ludo
+                                                                .toString()
+                                                            : controller
+                                                                        .state
+                                                                        .dropDownValue
+                                                                        .value ==
+                                                                    'Pubg'
+                                                                ? controller
+                                                                    .state.pubg
+                                                                    .toString()
+                                                                : controller.state.dropDownValue.value ==
+                                                                        'NFS'
+                                                                    ? controller
+                                                                        .state
+                                                                        .NFS
+                                                                        .toString()
+                                                                    : controller
+                                                                        .state
+                                                                        .call_of_duty
+                                                                        .toString(),
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),

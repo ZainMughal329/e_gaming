@@ -12,5 +12,20 @@ class AllUserScreenState{
   int call_of_duty = 0;
   int pubg = 0;
 
+  int playersRemaining = 0;
+  int playersRemainingCOD = 0;
+  int playersRemainingNFS = 0;
+  int playersRemainingPubg = 0;
+  int playersRemainingLudo = 0;
+  int playersRemainingTaken6 = 0;
+  int playersRemainingTakenTag = 0;
+
+  int playersLost = 0;
+  int playersLostCOD = 0;
+  int playersLostNFS = 0;
+  int playersLostTaken6 = 0;
+  int playersLostTakenTag = 0;
+  int playersLostLudo = 0;
+  int playersLostPubg = 0;
 
 }
