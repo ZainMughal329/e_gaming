@@ -1,5 +1,6 @@
 import 'package:e_gamming_matcher/component/routes/route_name.dart';
 import 'package:e_gamming_matcher/component/style/colors.dart';
+import 'package:e_gamming_matcher/pages/all_users/controller.dart';
 import 'package:e_gamming_matcher/pages/home_screen/controller.dart';
 import 'package:e_gamming_matcher/pages/home_screen/widgets/home_widget.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/view.dart';
