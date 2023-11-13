@@ -46,10 +46,10 @@ class AddUserScreen extends GetView<AddUserScreenController> {
             labelText: 'PhoneNo',
             readOnly: false,
           ),
-          _buildIsLose(),
-          _buildSelectGame(),
-          _buildSelectSemester(),
           _buildSelectDepartment(),
+          _buildSelectSemester(),
+          _buildSelectGame(),
+          _buildIsLose(),
           SizedBox(
             height: 30,
           ),
@@ -356,8 +356,9 @@ class AddUserScreen extends GetView<AddUserScreenController> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextWidget(
-            title: 'Is Lose',
+            title: 'Lost Match',
             textColor: AppColors.iconColor,
+
           ),
           Obx(
                 () => DropdownButton(
@@ -384,9 +385,10 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                   value: 'true',
                 ),
               ],
-              onChanged: (value) {
-                controller.state.gameValue.value = value!;
-              },
+              onChanged: null,
+              // onChanged: (value) {
+              //   controller.state.gameValue.value = value!;
+              // },
             ),
           ),
         ],

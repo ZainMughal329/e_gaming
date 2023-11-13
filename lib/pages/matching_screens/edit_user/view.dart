@@ -64,9 +64,11 @@ class EditUserScreen extends GetView<EditUserScreenController> {
             readOnly: true,
           ),
           _buildIsLose(),
-          _buildSelectGame(),
-          _buildSelectSemester(),
           _buildSelectDepartment(),
+          _buildSelectSemester(),
+          _buildSelectGame(),
+
+
           SizedBox(
             height: 30,
           ),

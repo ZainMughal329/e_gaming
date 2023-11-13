@@ -21,7 +21,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                   id: snapshot.data!.docs[index]['id'].toString()));
             },
             child: Card(
-              color: AppColors.iconColor,
+              color: snapshot.data!.docs[index]['isLose'].toString() == 'true' ? AppColors.lostColor : AppColors.iconColor,
               margin: EdgeInsets.only(right: 16, left: 16, top: 12),
               elevation: 4.0,
               child: Padding(
@@ -81,7 +81,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                           id: snapshot.data!.docs[index]['id'].toString()));
                     },
                     child: Card(
-                      color: AppColors.iconColor,
+                      color: snapshot.data!.docs[index]['isLose'].toString() == 'true' ? AppColors.lostColor : AppColors.iconColor,
                       margin: EdgeInsets.only(right: 16, left: 16, top: 12),
                       elevation: 4.0,
                       child: Padding(
