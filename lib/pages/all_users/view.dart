@@ -4,6 +4,7 @@ import 'package:e_gamming_matcher/component/style/snackbar.dart';
 import 'package:e_gamming_matcher/component/style/text_widget.dart';
 import 'package:e_gamming_matcher/pages/all_users/controller.dart';
 import 'package:e_gamming_matcher/pages/matching_screens/edit_user/view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +22,9 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                   id: snapshot.data!.docs[index]['id'].toString()));
             },
             child: Card(
-              color: snapshot.data!.docs[index]['isLose'].toString() == 'true' ? AppColors.lostColor : AppColors.iconColor,
+              color: snapshot.data!.docs[index]['isLose'].toString() == 'true'
+                  ? AppColors.lostColor
+                  : AppColors.iconColor,
               margin: EdgeInsets.only(right: 16, left: 16, top: 12),
               elevation: 4.0,
               child: Padding(
@@ -77,11 +80,50 @@ class AllUserScreen extends GetView<AllUserScreenController> {
             ? snapshot.data!.docs.length != 0
                 ? InkWell(
                     onLongPress: () {
-                      Get.to(() => EditUserScreen(
-                          id: snapshot.data!.docs[index]['id'].toString()));
+                      showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Choose an Option'),
+                            content: Container(
+                              height: 150,
+                              width: 300,
+                              child: Column(
+                                children: <Widget>[
+                                  ListTile(
+                                    title: Text('Edit'),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      // Handle edit action
+                                      Get.to(() => EditUserScreen(
+                                          id: snapshot.data!.docs[index]['id'].toString()));
+                                      // Navigator.pop(context); // Close the dialog
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text('Delete'),
+                                    onTap: () {
+                                      // Handle delete action
+                                      print("Del presses");
+
+                                      Navigator.pop(context);
+                                      controller.userRef.doc(snapshot.data!.docs[index]['id'].toString()).delete();
+                                      // Close the dialog
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+
                     },
                     child: Card(
-                      color: snapshot.data!.docs[index]['isLose'].toString() == 'true' ? AppColors.lostColor : AppColors.iconColor,
+                      color: snapshot.data!.docs[index]['isLose'].toString() ==
+                              'true'
+                          ? AppColors.lostColor
+                          : AppColors.iconColor,
                       margin: EdgeInsets.only(right: 16, left: 16, top: 12),
                       elevation: 4.0,
                       child: Padding(
@@ -240,11 +282,19 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                             ),
                             DropdownMenuItem(
                               child: TextWidget(
-                                title: 'Pubg',
+                                title: 'FreeFire',
                                 fontSize: 14,
                                 textColor: Colors.black,
                               ),
                               value: 'Pubg',
+                            ),
+                            DropdownMenuItem(
+                              child: TextWidget(
+                                title: 'Pubg',
+                                fontSize: 14,
+                                textColor: Colors.black,
+                              ),
+                              value: 'Pubg2',
                             ),
                           ],
                           onChanged: (value) {
@@ -344,7 +394,10 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                                                         'Taken-6'
                                                     ? controller.state
                                                         .playersRemainingTaken6
-                                                        .toString()
+                                                        .toString()  : controller.state.dropDownValue.value == 'Pubg2'
+                                                ? controller
+                                                .state.playersRemainingPubg
+                                                .toString()
                                                     : controller.state.dropDownValue.value ==
                                                             'TakenTag'
                                                         ? controller.state
@@ -362,7 +415,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                                                                     'Pubg'
                                                                 ? controller
                                                                     .state
-                                                                    .playersRemainingPubg
+                                                                    .playersRemainingFreeFire
                                                                     .toString()
                                                                 : controller.state.dropDownValue.value ==
                                                                         'NFS'
@@ -395,6 +448,14 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                                                         'Taken-6'
                                                     ? controller.state.playersLostTaken6
                                                         .toString()
+                                                : controller
+                                                .state
+                                                .dropDownValue
+                                                .value ==
+                                                'Pubg2'
+                                                ? controller
+                                                .state.playersLostPubg
+                                                .toString()
                                                     : controller.state.dropDownValue.value ==
                                                             'TakenTag'
                                                         ? controller.state
@@ -415,7 +476,7 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                                                                     'Pubg'
                                                                 ? controller
                                                                     .state
-                                                                    .playersLostPubg
+                                                                    .playersLostFreeFire
                                                                     .toString()
                                                                 : controller.state.dropDownValue.value ==
                                                                         'NFS'
@@ -445,43 +506,42 @@ class AllUserScreen extends GetView<AllUserScreenController> {
                                                     'All'
                                                 ? snapshot.data!.docs.length
                                                     .toString()
-                                                : controller.state.dropDownValue
-                                                            .value ==
-                                                        'Taken-6'
-                                                    ? controller.state.taken_6
+                                                : controller.state.dropDownValue.value ==
+                                                        'Pubg2'
+                                                    ? controller.state.pubg
                                                         .toString()
                                                     : controller
                                                                 .state
                                                                 .dropDownValue
                                                                 .value ==
-                                                            'TakenTag'
-                                                        ? controller.state.taken_tag
+                                                            'Taken-6'
+                                                        ? controller.state.taken_6
                                                             .toString()
                                                         : controller
                                                                     .state
                                                                     .dropDownValue
                                                                     .value ==
-                                                                'Ludo'
-                                                            ? controller.state.ludo
+                                                                'TakenTag'
+                                                            ? controller
+                                                                .state.taken_tag
                                                                 .toString()
                                                             : controller
                                                                         .state
                                                                         .dropDownValue
                                                                         .value ==
-                                                                    'Pubg'
+                                                                    'Ludo'
                                                                 ? controller
-                                                                    .state.pubg
+                                                                    .state.ludo
                                                                     .toString()
                                                                 : controller.state.dropDownValue.value ==
-                                                                        'NFS'
+                                                                        'Pubg'
                                                                     ? controller
                                                                         .state
-                                                                        .NFS
+                                                                        .freeFire
                                                                         .toString()
-                                                                    : controller
-                                                                        .state
-                                                                        .call_of_duty
-                                                                        .toString(),
+                                                                    : controller.state.dropDownValue.value == 'NFS'
+                                                                        ? controller.state.NFS.toString()
+                                                                        : controller.state.call_of_duty.toString(),
                                             fontSize: 19,
                                             fontWeight: FontWeight.bold,
                                           )),

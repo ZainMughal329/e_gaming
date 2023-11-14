@@ -161,11 +161,19 @@ class AddUserScreen extends GetView<AddUserScreenController> {
                 ),
                 DropdownMenuItem(
                   child: TextWidget(
-                    title: 'Pubg',
+                    title: 'FreeFire',
                     fontSize: 14,
                     textColor: Colors.black,
                   ),
                   value: 'Pubg',
+                ),
+                DropdownMenuItem(
+                  child: TextWidget(
+                    title: 'Pubg',
+                    fontSize: 14,
+                    textColor: Colors.black,
+                  ),
+                  value: 'Pubg2',
                 ),
               ],
               onChanged: (value) {

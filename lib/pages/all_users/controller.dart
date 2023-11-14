@@ -12,6 +12,7 @@ import '../../component/style/snackbar.dart';
 class AllUserScreenController extends GetxController {
   final state = AllUserScreenState();
   final firestore = FirebaseFirestore.instance.collection('users').snapshots();
+  final userRef = FirebaseFirestore.instance.collection('users');
 
   fetchData() {
     fetchTaken6Entries();
@@ -19,6 +20,7 @@ class AllUserScreenController extends GetxController {
     fetchLudoEntries();
     fetchTakenTagEntries();
     fetchNFSEntries();
+    fetchFreeFireEntries();
     fetchPubgEntries();
     remainingPlayers();
     remainingPlayersCOD();
@@ -27,7 +29,9 @@ class AllUserScreenController extends GetxController {
     remainingPlayersTaken6();
     remainingPlayersTakenTag();
     remainingPlayersPubg();
+    remainingPlayersFreeFire();
     lostPlayers();
+    playersLostFreeFire();
     playersLostPubg();
     playersLostTakenTag();
     playersLostNFS();
@@ -93,10 +97,19 @@ class AllUserScreenController extends GetxController {
     }
   }
 
-  Future<void> fetchPubgEntries() async {
+  Future<void> fetchFreeFireEntries() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('game', isEqualTo: 'Pubg')
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      state.freeFire = snapshot.docs.length;
+    }
+  }
+  Future<void> fetchPubgEntries() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('game', isEqualTo: 'Pubg2')
         .get();
     if (snapshot.docs.isNotEmpty) {
       state.pubg = snapshot.docs.length;
@@ -134,14 +147,14 @@ class AllUserScreenController extends GetxController {
     }
   }
 
-  Future<void> remainingPlayersPubg() async {
+  Future<void> remainingPlayersFreeFire() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('isLose', isEqualTo: 'false')
         .where('game', isEqualTo: 'Pubg')
         .get();
     if (snapshot.docs.isNotEmpty) {
-      state.playersRemainingPubg = snapshot.docs.length;
+      state.playersRemainingFreeFire = snapshot.docs.length;
     }
   }
 
@@ -164,6 +177,16 @@ class AllUserScreenController extends GetxController {
         .get();
     if (snapshot.docs.isNotEmpty) {
       state.playersRemainingTakenTag = snapshot.docs.length;
+    }
+  }
+  Future<void> remainingPlayersPubg() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('isLose', isEqualTo: 'false')
+        .where('game', isEqualTo: 'Pubg2')
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      state.playersRemainingPubg = snapshot.docs.length;
     }
   }
 
@@ -221,6 +244,17 @@ class AllUserScreenController extends GetxController {
     }
   }
 
+  Future<void> playersLostPubg() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('game', isEqualTo: 'Pubg2')
+        .where('isLose', isEqualTo: 'true')
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      state.playersLostPubg = snapshot.docs.length;
+    }
+  }
+
   Future<void> playersLostTakenTag() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -232,14 +266,14 @@ class AllUserScreenController extends GetxController {
     }
   }
 
-  Future<void> playersLostPubg() async {
+  Future<void> playersLostFreeFire() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('game', isEqualTo: 'Pubg')
         .where('isLose', isEqualTo: 'true')
         .get();
     if (snapshot.docs.isNotEmpty) {
-      state.playersLostPubg = snapshot.docs.length;
+      state.playersLostFreeFire = snapshot.docs.length;
     }
   }
 
